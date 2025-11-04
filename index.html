@@ -16,7 +16,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #2d5016 0%, #5a8f3e 100%);
+            background: #ffffff;
             min-height: 100vh;
             padding: 20px;
             color: #1a1a1a;
@@ -34,16 +34,19 @@
 
         /* Header */
         header {
-            background: linear-gradient(135deg, #2d5016 0%, #5a8f3e 100%);
-            color: white;
+            background: #ffffff;
+            color: #2d5016;
             padding: 30px;
             text-align: center;
+            border-bottom: 3px solid #2d5016;
         }
 
         header h1 {
-            font-size: 2.8em;
+            font-size: clamp(1.8em, 5vw, 2.8em);
             margin-bottom: 10px;
             font-weight: 700;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         header .subtitle {
@@ -58,10 +61,11 @@
 
         /* Filter Section */
         .filter-section {
-            background: #f8f9fa;
+            background: #ffffff;
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 30px;
+            border: 2px solid #e0e0e0;
         }
 
         .filter-row {
@@ -123,7 +127,7 @@
             border: 2px solid #2d5016;
             background: white;
             padding: 12px;
-            font-size: 1em;
+            font-size: clamp(0.85em, 1.5vw, 1em);
             border-radius: 8px;
         }
 
@@ -136,33 +140,47 @@
         }
 
         .kpi-card {
-            background: linear-gradient(135deg, #4a7c59 0%, #6b9c7a 100%);
-            color: white;
+            background: #ffffff;
+            color: #2d5016;
             padding: 28px;
             border-radius: 12px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 3px solid #2d5016;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .kpi-card.income {
-            background: linear-gradient(135deg, #2d6a4f 0%, #52b788 100%);
+            background: #ffffff;
+            border-color: #2d6a4f;
+            color: #2d6a4f;
         }
 
         .kpi-card.expense {
-            background: linear-gradient(135deg, #8b4513 0%, #d2691e 100%);
+            background: #ffffff;
+            border-color: #8b4513;
+            color: #8b4513;
         }
 
         .kpi-card.balance {
-            background: linear-gradient(135deg, #1e6091 0%, #4093c6 100%);
+            background: #ffffff;
+            border-color: #1e6091;
+            color: #1e6091;
         }
 
         .kpi-card.savings {
-            background: linear-gradient(135deg, #2d5016 0%, #5a8f3e 100%);
+            background: #ffffff;
+            border-color: #2d5016;
+            color: #2d5016;
         }
 
         .kpi-card.other-expense {
-            background: linear-gradient(135deg, #a0522d 0%, #cd853f 100%);
+            background: #ffffff;
+            border-color: #a0522d;
+            color: #a0522d;
         }
 
         .kpi-card.over-budget {
@@ -176,30 +194,38 @@
         }
 
         .kpi-label {
-            font-size: 1.1em;
+            font-size: clamp(0.9em, 2vw, 1.1em);
             opacity: 0.95;
             margin-bottom: 12px;
             font-weight: 600;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .kpi-value {
-            font-size: 2.2em;
+            font-size: clamp(1.5em, 4vw, 2.2em);
             font-weight: bold;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
         }
 
         /* Form Section */
         .form-section {
-            background: #f8f9fa;
+            background: #ffffff;
             padding: 25px;
             border-radius: 10px;
             margin-bottom: 30px;
+            border: 2px solid #e0e0e0;
         }
 
         .form-section h2 {
             margin-bottom: 20px;
             color: #2d5016;
-            font-size: 1.8em;
+            font-size: clamp(1.4em, 3.5vw, 1.8em);
             font-weight: 700;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .form-grid {
@@ -227,18 +253,20 @@
 
         /* Budget Section */
         .budget-section {
-            background: #f5f5dc;
+            background: #ffffff;
             padding: 28px;
             border-radius: 10px;
             margin-bottom: 30px;
-            border: 3px solid #2d5016;
+            border: 2px solid #e0e0e0;
         }
 
         .budget-section h2 {
             margin-bottom: 20px;
             color: #2d5016;
-            font-size: 1.8em;
+            font-size: clamp(1.4em, 3.5vw, 1.8em);
             font-weight: 700;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .budget-list {
@@ -300,16 +328,20 @@
         }
 
         .budget-target label {
-            font-size: 1em;
+            font-size: clamp(0.9em, 1.8vw, 1em);
             color: #2d5016;
             font-weight: 600;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .budget-stats {
-            font-size: 1em;
+            font-size: clamp(0.9em, 1.8vw, 1em);
             color: #2d5016;
             margin-top: 8px;
             font-weight: 600;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .budget-stats.over {
@@ -334,7 +366,7 @@
             background: white;
             color: #2d5016;
             font-weight: 600;
-            font-size: 1em;
+            font-size: clamp(0.85em, 1.5vw, 1em);
             border-radius: 8px;
             cursor: pointer;
         }
@@ -378,23 +410,25 @@
         }
 
         thead {
-            background: linear-gradient(135deg, #2d5016 0%, #5a8f3e 100%);
+            background: #2d5016;
             color: white;
         }
 
         th, td {
-            padding: 14px;
+            padding: clamp(10px, 2vw, 14px);
             text-align: left;
-            border-bottom: 2px solid #ddd;
+            border-bottom: 2px solid #e0e0e0;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         th {
             font-weight: 700;
-            font-size: 1.1em;
+            font-size: clamp(0.95em, 1.8vw, 1.1em);
         }
         
         td {
-            font-size: 1em;
+            font-size: clamp(0.85em, 1.5vw, 1em);
         }
 
         tbody tr {
@@ -406,10 +440,11 @@
         }
 
         .transaction-type {
-            padding: 8px 14px;
+            padding: clamp(6px, 1.5vw, 8px) clamp(10px, 2vw, 14px);
             border-radius: 6px;
             font-weight: 700;
-            font-size: 1em;
+            font-size: clamp(0.85em, 1.5vw, 1em);
+            white-space: nowrap;
         }
 
         .transaction-type.income {
@@ -426,7 +461,9 @@
 
         .amount {
             font-weight: 700;
-            font-size: 1.15em;
+            font-size: clamp(1em, 2vw, 1.15em);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .amount.income {
@@ -449,17 +486,20 @@
 
         /* Chart Section */
         .chart-section {
-            background: #f8f9fa;
+            background: #ffffff;
             padding: 25px;
             border-radius: 10px;
             margin-bottom: 30px;
+            border: 2px solid #e0e0e0;
         }
 
         .chart-section h2 {
             margin-bottom: 20px;
             color: #2d5016;
-            font-size: 1.8em;
+            font-size: clamp(1.4em, 3.5vw, 1.8em);
             font-weight: 700;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         #expenseChart {
@@ -530,8 +570,10 @@
             text-align: center;
             margin-bottom: 30px;
             color: #2d5016;
-            font-size: 2.2em;
+            font-size: clamp(1.6em, 4vw, 2.2em);
             font-weight: 700;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .login-box form {
@@ -544,7 +586,7 @@
             padding: 14px;
             border: 3px solid #2d5016;
             border-radius: 8px;
-            font-size: 1.1em;
+            font-size: clamp(0.95em, 1.8vw, 1.1em);
         }
 
         .login-box input:focus {
@@ -555,7 +597,7 @@
 
         .login-box button {
             padding: 14px;
-            font-size: 1.1em;
+            font-size: clamp(0.95em, 1.8vw, 1.1em);
             font-weight: 700;
             background: #2d5016;
             color: white;
@@ -659,7 +701,7 @@
 
         .user-info strong {
             color: #2d5016;
-            font-size: 1.1em;
+            font-size: clamp(0.95em, 1.8vw, 1.1em);
         }
 
         .user-actions {
@@ -827,7 +869,6 @@
                     </div>
                 </div>
                 <div class="filter-row">
-                    <button onclick="clearAllData()" class="danger">🗑️ Xóa toàn bộ dữ liệu</button>
                 </div>
             </div>
 
@@ -1921,14 +1962,6 @@
                         </div>
                     `;
                 }
-                
-                // Thêm nút "Thêm giao dịch" cho mỗi danh mục
-                html += `
-                    <button onclick="quickAddTransaction('${cat.type}', '${cat.name}')" 
-                            style="width: 100%; margin-top: 10px; padding: 8px 15px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 0.9em;">
-                        ➕ Thêm giao dịch
-                    </button>
-                `;
                 
                 budgetItem.innerHTML = html;
                 budgetList.appendChild(budgetItem);
