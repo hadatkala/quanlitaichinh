@@ -1,0 +1,28 @@
+{
+  "name": "Quản lý Tài chính Cá nhân",
+  "short_name": "QL Tài chính",
+  "description": "Ứng dụng quản lý tài chính cá nhân đơn giản, hoạt động offline",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#667eea",
+  "theme_color": "#667eea",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["finance", "productivity", "utilities"],
+  "lang": "vi",
+  "dir": "ltr"
+}
+
