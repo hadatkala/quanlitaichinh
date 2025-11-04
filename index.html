@@ -98,11 +98,11 @@
         }
 
         button.danger {
-            background: #e74c3c;
+            background: #15dcea;
         }
 
         button.danger:hover {
-            background: #c0392b;
+            background: #0d3145;
         }
 
         button.success {
@@ -127,7 +127,7 @@
         }
 
         .kpi-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #62e48c 0%, #764ba2 100%);
             color: white;
             padding: 25px;
             border-radius: 15px;
@@ -186,7 +186,7 @@
 
         .form-section h2 {
             margin-bottom: 20px;
-            color: #667eea;
+            color: #1a862e;
         }
 
         .form-grid {
@@ -806,7 +806,7 @@
                     <div class="kpi-label">Số dư</div>
                     <div class="kpi-value" id="balance">0 ₫</div>
                 </div>
-                <div class="kpi-card savings">
+                <div class="kpi-card savings" id="savingsCard" onclick="showSavingsModal()" style="cursor: pointer;">
                     <div class="kpi-label">Tiết kiệm</div>
                     <div class="kpi-value" id="savings">0 ₫</div>
                 </div>
@@ -834,9 +834,15 @@
                         </div>
                         <div class="form-group">
                             <label>Danh mục *</label>
-                            <div style="display: flex; gap: 5px;">
-                                <select id="category" required style="flex: 1;"></select>
-                                <button type="button" onclick="showAddCategoryModal()" style="padding: 10px;">➕</button>
+                            <div style="display: flex; gap: 5px; flex-direction: column;">
+                                <select id="category" required style="flex: 1; width: 100%;"></select>
+                                <div id="newCategoryInput" style="display: none; flex-direction: column; gap: 5px;">
+                                    <input type="text" id="newCategoryName" placeholder="Nhập tên danh mục mới..." style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                    <div style="display: flex; gap: 5px;">
+                                        <button type="button" onclick="addNewCategory()" style="flex: 1; padding: 8px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">✓ Thêm</button>
+                                        <button type="button" onclick="cancelAddCategory()" style="flex: 1; padding: 8px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">✗ Hủy</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -855,7 +861,7 @@
             <!-- Budget Section -->
             <div class="budget-section">
                 <h2>💰 Quản lý ngân sách danh mục</h2>
-                <p style="margin-bottom: 15px; color: #856404;">✓ Chọn checkbox để tính vào tiết kiệm | Nhập giá trị chi tối đa cho mỗi danh mục chi tiêu</p>
+                <p style="margin-bottom: 15px; color: #856404;">Nhập giá trị chi tối đa cho mỗi danh mục chi tiêu</p>
                 <div class="budget-list" id="budgetList"></div>
             </div>
 
@@ -899,7 +905,6 @@
 
         <!-- Footer -->
         <footer>
-            <p>💾 Dữ liệu được lưu cục bộ trên trình duyệt của bạn (localStorage).</p>
             <p>Made with ❤️ - Quản lý tài chính cá nhân</p>
         </footer>
     </div>
@@ -1215,12 +1220,12 @@
                     state = response.data;
                     if (!state.budgets) state.budgets = {};
                     if (!state.targets) state.targets = {};
-                    if (!state.savingsCategories) state.savingsCategories = {};
+                    if (!state.monthlyBalance) state.monthlyBalance = {};
                 }
             } catch (error) {
                 console.error('Error loading data:', error);
                 // Initialize empty state if no data
-                state = { categories: [], transactions: [], budgets: {}, targets: {}, savingsCategories: {} };
+                state = { categories: [], transactions: [], budgets: {}, targets: {}, monthlyBalance: {} };
             }
         }
 
@@ -1241,7 +1246,7 @@
             transactions: [],
             budgets: {},
             targets: {},  // Giá trị mong muốn cho mỗi danh mục
-            savingsCategories: {}  // Danh sách danh mục được chọn để tính tiết kiệm
+            monthlyBalance: {}  // Số dư theo tháng: { "2024-01": 1000000, ... }
         };
 
         // View mode: 'all', 'week', 'month'
@@ -1320,7 +1325,7 @@
                     // Ensure objects exist
                     if (!state.budgets) state.budgets = {};
                     if (!state.targets) state.targets = {};
-                    if (!state.savingsCategories) state.savingsCategories = {};
+                    if (!state.monthlyBalance) state.monthlyBalance = {};
                 } catch (e) {
                     console.error('Error loading data:', e);
                 }
@@ -1330,7 +1335,7 @@
         function clearAllData() {
             if (confirm('Bạn có chắc chắn muốn xóa toàn bộ dữ liệu? Hành động này không thể hoàn tác!')) {
                 localStorage.removeItem('pf_tracker_v1');
-                state = { categories: [], transactions: [], budgets: {}, targets: {}, savingsCategories: {} };
+                state = { categories: [], transactions: [], budgets: {}, targets: {}, monthlyBalance: {} };
                 setupDefaultCategories();
                 render();
             }
@@ -1349,24 +1354,98 @@
                 option.textContent = cat.name;
                 categorySelect.appendChild(option);
             });
+            
+            // Thêm option "Thêm danh mục mới..."
+            const addNewOption = document.createElement('option');
+            addNewOption.value = '__ADD_NEW__';
+            addNewOption.textContent = 'Thêm danh mục mới...';
+            addNewOption.style.color = '#007bff';
+            addNewOption.style.fontWeight = 'bold';
+            categorySelect.appendChild(addNewOption);
+            
+            // Lắng nghe sự kiện thay đổi
+            categorySelect.removeEventListener('change', handleCategoryChange);
+            categorySelect.addEventListener('change', handleCategoryChange);
+        }
+        
+        function handleCategoryChange() {
+            const categorySelect = document.getElementById('category');
+            const newCategoryInput = document.getElementById('newCategoryInput');
+            const newCategoryName = document.getElementById('newCategoryName');
+            
+            if (categorySelect.value === '__ADD_NEW__') {
+                // Hiển thị input để nhập tên danh mục mới
+                newCategoryInput.style.display = 'flex';
+                categorySelect.required = false;
+                newCategoryName.focus();
+            } else {
+                // Ẩn input nếu chọn danh mục khác
+                newCategoryInput.style.display = 'none';
+                categorySelect.required = true;
+            }
+        }
+        
+        function addNewCategory() {
+            const type = document.getElementById('transactionType').value;
+            const newCategoryName = document.getElementById('newCategoryName');
+            const categoryName = newCategoryName.value.trim();
+            
+            if (!categoryName) {
+                alert('Vui lòng nhập tên danh mục!');
+                return;
+            }
+            
+            // Kiểm tra danh mục đã tồn tại chưa
+            if (state.categories.find(c => c.name === categoryName && c.type === type)) {
+                alert('Danh mục này đã tồn tại!');
+                newCategoryName.value = '';
+                newCategoryName.focus();
+                return;
+            }
+            
+            // Thêm danh mục mới
+            state.categories.push({ name: categoryName, type: type });
+            saveData();
+            
+            // Cập nhật dropdown
+            updateCategoryOptions();
+            
+            // Chọn danh mục vừa thêm
+            document.getElementById('category').value = categoryName;
+            
+            // Ẩn input và reset
+            document.getElementById('newCategoryInput').style.display = 'none';
+            newCategoryName.value = '';
+            document.getElementById('category').required = true;
+            
+            // Focus vào ô số tiền
+            document.getElementById('amount').focus();
+        }
+        
+        function cancelAddCategory() {
+            const newCategoryInput = document.getElementById('newCategoryInput');
+            const newCategoryName = document.getElementById('newCategoryName');
+            const categorySelect = document.getElementById('category');
+            
+            // Ẩn input
+            newCategoryInput.style.display = 'none';
+            newCategoryName.value = '';
+            
+            // Reset dropdown về danh mục đầu tiên
+            const type = document.getElementById('transactionType').value;
+            const categories = state.categories.filter(c => c.type === type);
+            if (categories.length > 0) {
+                categorySelect.value = categories[0].name;
+            }
+            categorySelect.required = true;
         }
 
+        // Function này giữ lại để tương thích, nhưng không còn dùng nữa
         function showAddCategoryModal() {
-            const type = document.getElementById('transactionType').value;
-            const typeName = type === 'income' ? 'Thu nhập' : 'Chi tiêu';
-            const categoryName = prompt(`Nhập tên danh mục ${typeName} mới:`);
-            
-            if (categoryName && categoryName.trim()) {
-                const trimmedName = categoryName.trim();
-                if (!state.categories.find(c => c.name === trimmedName && c.type === type)) {
-                    state.categories.push({ name: trimmedName, type: type });
-                    saveData();
-                    updateCategoryOptions();
-                    document.getElementById('category').value = trimmedName;
-                } else {
-                    alert('Danh mục này đã tồn tại!');
-                }
-            }
+            // Không còn dùng nữa - đã thay bằng option trong dropdown
+            const categorySelect = document.getElementById('category');
+            categorySelect.value = '__ADD_NEW__';
+            handleCategoryChange();
         }
 
         // Transaction management
@@ -1375,9 +1454,32 @@
             
             const type = document.getElementById('transactionType').value;
             const amount = parseFloat(document.getElementById('amount').value);
-            const category = document.getElementById('category').value;
+            const categorySelect = document.getElementById('category');
+            let category = categorySelect.value;
             const date = document.getElementById('transactionDate').value;
             const note = document.getElementById('note').value || '';
+            
+            // Kiểm tra nếu đang thêm danh mục mới
+            if (category === '__ADD_NEW__') {
+                const newCategoryName = document.getElementById('newCategoryName').value.trim();
+                if (!newCategoryName) {
+                    alert('Vui lòng nhập tên danh mục mới!');
+                    document.getElementById('newCategoryName').focus();
+                    return;
+                }
+                
+                // Kiểm tra danh mục đã tồn tại chưa
+                if (state.categories.find(c => c.name === newCategoryName && c.type === type)) {
+                    alert('Danh mục này đã tồn tại!');
+                    document.getElementById('newCategoryName').focus();
+                    return;
+                }
+                
+                // Thêm danh mục mới
+                state.categories.push({ name: newCategoryName, type: type });
+                saveData();
+                category = newCategoryName;
+            }
 
             const transaction = {
                 id: Date.now(),
@@ -1396,6 +1498,9 @@
             document.getElementById('transactionForm').reset();
             setDefaultDate();
             updateCategoryOptions();
+            
+            // Ẩn input thêm danh mục mới nếu đang hiển thị
+            document.getElementById('newCategoryInput').style.display = 'none';
         }
 
         function deleteTransaction(id) {
@@ -1470,15 +1575,94 @@
             render();
         }
 
-        // Savings category checkbox
-        function toggleSavingsCategory(category, checked) {
-            if (checked) {
-                state.savingsCategories[category] = true;
-            } else {
-                delete state.savingsCategories[category];
-            }
+        // Calculate monthly balance (số dư theo tháng)
+        function calculateMonthlyBalance() {
+            const monthlyData = {};
+            
+            state.transactions.forEach(transaction => {
+                const date = new Date(transaction.date);
+                const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+                
+                if (!monthlyData[monthKey]) {
+                    monthlyData[monthKey] = { income: 0, expense: 0, targetExpense: 0 };
+                }
+                
+                if (transaction.type === 'income') {
+                    monthlyData[monthKey].income += transaction.amount;
+                } else {
+                    monthlyData[monthKey].expense += transaction.amount;
+                }
+            });
+            
+            // Tính tổng giá trị mong muốn tiêu (targets) cho mỗi tháng
+            Object.keys(monthlyData).forEach(monthKey => {
+                const expenseCategories = state.categories.filter(c => c.type === 'expense');
+                let totalTarget = 0;
+                expenseCategories.forEach(cat => {
+                    const targetKey = `expense_${cat.name}`;
+                    const target = state.targets[targetKey] || 0;
+                    totalTarget += target;
+                });
+                monthlyData[monthKey].targetExpense = totalTarget;
+                
+                // Tính số dư: Thu nhập - Giá trị mong muốn tiêu
+                const income = monthlyData[monthKey].income;
+                const balance = income - totalTarget;
+                state.monthlyBalance[monthKey] = balance;
+            });
+            
             saveData();
-            render();
+        }
+        
+        // Show savings modal
+        function showSavingsModal() {
+            calculateMonthlyBalance();
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center;';
+            
+            const modalContent = document.createElement('div');
+            modalContent.style.cssText = 'background: white; padding: 30px; border-radius: 10px; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto;';
+            
+            let html = '<h2 style="margin-bottom: 20px; color: #1a862e;">📊 Số dư theo tháng</h2>';
+            
+            // Sort months
+            const sortedMonths = Object.keys(state.monthlyBalance).sort().reverse();
+            
+            if (sortedMonths.length === 0) {
+                html += '<p style="color: #666;">Chưa có dữ liệu số dư theo tháng.</p>';
+            } else {
+                html += '<div style="display: flex; flex-direction: column; gap: 10px;">';
+                sortedMonths.forEach(monthKey => {
+                    const balance = state.monthlyBalance[monthKey];
+                    const [year, month] = monthKey.split('-');
+                    const monthNames = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 
+                                      'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
+                    const monthName = monthNames[parseInt(month) - 1];
+                    const color = balance >= 0 ? '#28a745' : '#dc3545';
+                    
+                    html += `
+                        <div style="display: flex; justify-content: space-between; padding: 15px; background: #f8f9fa; border-radius: 5px; border-left: 4px solid ${color};">
+                            <span style="font-weight: 600;">${monthName} ${year}</span>
+                            <span style="color: ${color}; font-weight: bold;">${formatCurrency(balance)}</span>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+            
+            html += '<button onclick="this.closest(\'div[style*=\'position: fixed\']\').remove()" style="margin-top: 20px; padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer; width: 100%;">Đóng</button>';
+            
+            modalContent.innerHTML = html;
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+            
+            // Close on click outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
         }
 
         // View mode
@@ -1548,23 +1732,40 @@
 
         function renderKPIs() {
             const transactions = getFilteredTransactions();
+            const now = new Date();
+            const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+            
+            // Tính tổng thu nhập tháng hiện tại
+            const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+            const monthIncome = state.transactions
+                .filter(t => t.type === 'income' && new Date(t.date) >= startOfMonth)
+                .reduce((sum, t) => sum + t.amount, 0);
+            
+            // Tính tổng giá trị mong muốn tiêu (targets)
+            const expenseCategories = state.categories.filter(c => c.type === 'expense');
+            let totalTarget = 0;
+            expenseCategories.forEach(cat => {
+                const targetKey = `expense_${cat.name}`;
+                const target = state.targets[targetKey] || 0;
+                totalTarget += target;
+            });
+            
+            // Số dư = Tổng thu nhập - Tổng giá trị mong muốn tiêu
+            const balance = monthIncome - totalTarget;
+            
+            // Tính tiết kiệm = Tổng số dư các tháng
+            calculateMonthlyBalance();
+            const savings = Object.values(state.monthlyBalance).reduce((sum, b) => sum + (b > 0 ? b : 0), 0);
+            
+            // Chi "Phát sinh" = Số dư âm (nếu có)
+            const otherExpense = balance < 0 ? Math.abs(balance) : 0;
+            
+            // Tổng thu nhập và chi tiêu (tất cả giao dịch)
             const totalIncome = transactions
                 .filter(t => t.type === 'income')
                 .reduce((sum, t) => sum + t.amount, 0);
             const totalExpense = transactions
                 .filter(t => t.type === 'expense')
-                .reduce((sum, t) => sum + t.amount, 0);
-            const balance = totalIncome - totalExpense;
-
-            // Tính tiết kiệm: Thu - Chi các danh mục đã chọn checkbox
-            const savingsExpense = transactions
-                .filter(t => t.type === 'expense' && state.savingsCategories[t.category])
-                .reduce((sum, t) => sum + t.amount, 0);
-            const savings = totalIncome - savingsExpense;
-
-            // Tính chi tiêu phát sinh: Chi tiêu của danh mục "Phát sinh"
-            const otherExpense = transactions
-                .filter(t => t.type === 'expense' && t.category === 'Phát sinh')
                 .reduce((sum, t) => sum + t.amount, 0);
 
             document.getElementById('totalIncome').textContent = formatCurrency(totalIncome);
@@ -1575,7 +1776,6 @@
 
             // Check for budget warnings
             const balanceCard = document.getElementById('balanceCard');
-            const expenseCategories = state.categories.filter(c => c.type === 'expense');
             let hasOverBudget = false;
 
             expenseCategories.forEach(cat => {
@@ -1632,18 +1832,13 @@
 
                 let html = `
                     <div class="budget-item-header">
-                        ${cat.type === 'expense' ? `
-                            <input type="checkbox" 
-                                   ${isChecked ? 'checked' : ''} 
-                                   onchange="toggleSavingsCategory('${cat.name}', this.checked)"
-                                   style="width: 20px; height: 20px; margin-right: 10px;">
-                        ` : ''}
                         <label style="flex: 1; margin: 0;">${cat.name}</label>
                     </div>
                 `;
 
                 if (cat.type === 'expense') {
                     // Giá trị chi tối đa (target = max expense)
+                    const remaining = target > 0 ? Math.max(0, target - monthExpense) : 0;
                     html += `
                         <div class="budget-target">
                             <label>Giá trị chi tối đa (VND/tháng):</label>
@@ -1655,7 +1850,7 @@
                                    onchange="updateTarget('${cat.name}', 'expense', this.value)">
                         </div>
                         <div class="budget-stats ${isOverBudget ? 'over' : ''}">
-                            Đã chi: ${formatCurrency(monthExpense)}${target ? ` / ${formatCurrency(target)}` : ''}
+                            Đã chi: ${formatCurrency(monthExpense)}${target ? ` / Còn lại: ${formatCurrency(remaining)}` : ''}
                             ${isOverBudget ? ' ⚠️ VƯỢT NGÂN SÁCH!' : ''}
                         </div>
                     `;
