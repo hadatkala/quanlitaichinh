@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Ứng dụng quản lý tài chính cá nhân đơn giản, hoạt động offline">
-    <meta name="theme-color" content="#667eea">
+    <meta name="theme-color" content="#2d5016">
     <link rel="manifest" href="manifest.json">
     <title>📒 Quản lý tài chính cá nhân</title>
     <style>
@@ -16,10 +16,11 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #083b0a 0%, #4c9153 100%);
+            background: linear-gradient(135deg, #2d5016 0%, #5a8f3e 100%);
             min-height: 100vh;
             padding: 20px;
-            color: #333;
+            color: #1a1a1a;
+            font-size: 16px;
         }
 
         .container {
@@ -33,15 +34,16 @@
 
         /* Header */
         header {
-            background: linear-gradient(135deg, #3b8447 0%, #28ed63 100%);
+            background: linear-gradient(135deg, #2d5016 0%, #5a8f3e 100%);
             color: white;
             padding: 30px;
             text-align: center;
         }
 
         header h1 {
-            font-size: 2.5em;
+            font-size: 2.8em;
             margin-bottom: 10px;
+            font-weight: 700;
         }
 
         header .subtitle {
@@ -86,36 +88,43 @@
         }
 
         button {
-            background: #667eea;
+            background: #2d5016;
             color: white;
             border: none;
         }
 
         button:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            background: #1e3a0f;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
         button.danger {
-            background: #15dcea;
+            background: #8b4513;
+            border: none;
         }
 
         button.danger:hover {
-            background: #0d3145;
+            background: #6b3410;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
         button.success {
-            background: #27ae60;
+            background: #2d5016;
+            border: none;
         }
 
         button.success:hover {
-            background: #229954;
+            background: #1e3a0f;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
         select, input[type="text"], input[type="number"], input[type="date"] {
-            border: 1px solid #ddd;
+            border: 2px solid #2d5016;
             background: white;
+            padding: 12px;
+            font-size: 1em;
+            border-radius: 8px;
         }
 
         /* KPI Cards */
@@ -127,32 +136,33 @@
         }
 
         .kpi-card {
-            background: linear-gradient(135deg, #62e48c 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #4a7c59 0%, #6b9c7a 100%);
             color: white;
-            padding: 25px;
-            border-radius: 15px;
+            padding: 28px;
+            border-radius: 12px;
             text-align: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.2);
         }
 
         .kpi-card.income {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            background: linear-gradient(135deg, #2d6a4f 0%, #52b788 100%);
         }
 
         .kpi-card.expense {
-            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+            background: linear-gradient(135deg, #8b4513 0%, #d2691e 100%);
         }
 
         .kpi-card.balance {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, #1e6091 0%, #4093c6 100%);
         }
 
         .kpi-card.savings {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            background: linear-gradient(135deg, #2d5016 0%, #5a8f3e 100%);
         }
 
         .kpi-card.other-expense {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, #a0522d 0%, #cd853f 100%);
         }
 
         .kpi-card.over-budget {
@@ -166,13 +176,14 @@
         }
 
         .kpi-label {
-            font-size: 0.9em;
-            opacity: 0.9;
-            margin-bottom: 10px;
+            font-size: 1.1em;
+            opacity: 0.95;
+            margin-bottom: 12px;
+            font-weight: 600;
         }
 
         .kpi-value {
-            font-size: 2em;
+            font-size: 2.2em;
             font-weight: bold;
         }
 
@@ -186,7 +197,9 @@
 
         .form-section h2 {
             margin-bottom: 20px;
-            color: #1a862e;
+            color: #2d5016;
+            font-size: 1.8em;
+            font-weight: 700;
         }
 
         .form-grid {
@@ -202,9 +215,10 @@
         }
 
         .form-group label {
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: #555;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: #2d5016;
+            font-size: 1.05em;
         }
 
         .form-group.full-width {
@@ -213,16 +227,18 @@
 
         /* Budget Section */
         .budget-section {
-            background: #fff3cd;
-            padding: 25px;
+            background: #f5f5dc;
+            padding: 28px;
             border-radius: 10px;
             margin-bottom: 30px;
-            border: 2px solid #ffc107;
+            border: 3px solid #2d5016;
         }
 
         .budget-section h2 {
             margin-bottom: 20px;
-            color: #856404;
+            color: #2d5016;
+            font-size: 1.8em;
+            font-weight: 700;
         }
 
         .budget-list {
@@ -284,19 +300,22 @@
         }
 
         .budget-target label {
-            font-size: 0.9em;
-            color: #666;
+            font-size: 1em;
+            color: #2d5016;
+            font-weight: 600;
         }
 
         .budget-stats {
-            font-size: 0.85em;
-            color: #666;
-            margin-top: 5px;
+            font-size: 1em;
+            color: #2d5016;
+            margin-top: 8px;
+            font-weight: 600;
         }
 
         .budget-stats.over {
-            color: #e74c3c;
+            color: #dc3545;
             font-weight: bold;
+            font-size: 1.05em;
         }
 
         .view-toggle {
@@ -310,17 +329,20 @@
 
         .view-toggle button {
             flex: 1;
-            padding: 10px;
-            border: 2px solid #ddd;
+            padding: 14px;
+            border: 3px solid #2d5016;
             background: white;
-            color: #667eea;
+            color: #2d5016;
             font-weight: 600;
+            font-size: 1em;
+            border-radius: 8px;
+            cursor: pointer;
         }
 
         .view-toggle button.active {
-            background: #667eea;
+            background: #2d5016;
             color: white;
-            border-color: #667eea;
+            border-color: #2d5016;
         }
 
         .comparison-table {
@@ -343,7 +365,7 @@
 
         .transactions-section h2 {
             margin-bottom: 20px;
-            color: #667eea;
+            color: #2d5016;
         }
 
         table {
@@ -356,17 +378,23 @@
         }
 
         thead {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2d5016 0%, #5a8f3e 100%);
             color: white;
         }
 
         th, td {
-            padding: 12px;
+            padding: 14px;
             text-align: left;
+            border-bottom: 2px solid #ddd;
         }
 
         th {
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+        
+        td {
+            font-size: 1em;
         }
 
         tbody tr {
@@ -378,33 +406,35 @@
         }
 
         .transaction-type {
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-weight: 600;
-            font-size: 0.9em;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 1em;
         }
 
         .transaction-type.income {
-            background: #d4edda;
-            color: #155724;
+            background: #d1e7dd;
+            color: #0f5132;
+            border: 2px solid #2d5016;
         }
 
         .transaction-type.expense {
             background: #f8d7da;
-            color: #721c24;
+            color: #842029;
+            border: 2px solid #8b4513;
         }
 
         .amount {
-            font-weight: bold;
-            font-size: 1.1em;
+            font-weight: 700;
+            font-size: 1.15em;
         }
 
         .amount.income {
-            color: #27ae60;
+            color: #2d5016;
         }
 
         .amount.expense {
-            color: #e74c3c;
+            color: #8b4513;
         }
 
         .action-buttons {
@@ -427,7 +457,9 @@
 
         .chart-section h2 {
             margin-bottom: 20px;
-            color: #667eea;
+            color: #2d5016;
+            font-size: 1.8em;
+            font-weight: 700;
         }
 
         #expenseChart {
@@ -497,8 +529,9 @@
         .login-box h2 {
             text-align: center;
             margin-bottom: 30px;
-            color: #667eea;
-            font-size: 2em;
+            color: #2d5016;
+            font-size: 2.2em;
+            font-weight: 700;
         }
 
         .login-box form {
@@ -508,21 +541,27 @@
         }
 
         .login-box input {
-            padding: 12px;
-            border: 2px solid #ddd;
+            padding: 14px;
+            border: 3px solid #2d5016;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 1.1em;
         }
 
         .login-box input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #5a8f3e;
+            box-shadow: 0 0 0 3px rgba(45, 80, 22, 0.1);
         }
 
         .login-box button {
-            padding: 12px;
-            font-size: 16px;
-            font-weight: 600;
+            padding: 14px;
+            font-size: 1.1em;
+            font-weight: 700;
+            background: #2d5016;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
         .login-error {
@@ -540,7 +579,7 @@
         }
 
         .login-links a {
-            color: #667eea;
+            color: #2d5016;
             text-decoration: none;
             font-size: 0.9em;
         }
@@ -555,7 +594,7 @@
         }
 
         #verifyEmailDisplay {
-            color: #667eea;
+            color: #2d5016;
             font-size: 0.9em;
         }
 
@@ -619,7 +658,7 @@
         }
 
         .user-info strong {
-            color: #667eea;
+            color: #2d5016;
             font-size: 1.1em;
         }
 
@@ -823,35 +862,35 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label>Loại giao dịch *</label>
-                            <select id="transactionType" required>
+                            <select id="transactionType" required style="padding: 10px; font-size: 1em; border: 2px solid #2d5016; border-radius: 6px;">
                                 <option value="income">Thu nhập</option>
                                 <option value="expense">Chi tiêu</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Số tiền (VND) *</label>
-                            <input type="number" id="amount" min="0" step="1000" required>
+                            <input type="number" id="amount" min="0" step="1000" required style="padding: 10px; font-size: 1em; border: 2px solid #2d5016; border-radius: 6px;">
                         </div>
                         <div class="form-group">
                             <label>Danh mục *</label>
                             <div style="display: flex; gap: 5px; flex-direction: column;">
-                                <select id="category" required style="flex: 1; width: 100%;"></select>
+                                <select id="category" required style="flex: 1; width: 100%; padding: 10px; font-size: 1em; border: 2px solid #2d5016; border-radius: 6px;"></select>
                                 <div id="newCategoryInput" style="display: none; flex-direction: column; gap: 5px;">
-                                    <input type="text" id="newCategoryName" placeholder="Nhập tên danh mục mới..." style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                    <input type="text" id="newCategoryName" placeholder="Nhập tên danh mục mới..." style="flex: 1; padding: 12px; border: 2px solid #2d5016; border-radius: 6px; font-size: 1em;">
                                     <div style="display: flex; gap: 5px;">
-                                        <button type="button" onclick="addNewCategory()" style="flex: 1; padding: 8px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">✓ Thêm</button>
-                                        <button type="button" onclick="cancelAddCategory()" style="flex: 1; padding: 8px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">✗ Hủy</button>
+                                    <button type="button" onclick="addNewCategory()" style="flex: 1; padding: 12px; background: #2d5016; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1em; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">✓ Thêm</button>
+                                    <button type="button" onclick="cancelAddCategory()" style="flex: 1; padding: 12px; background: #6c757d; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1em; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">✗ Hủy</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Ngày giao dịch *</label>
-                            <input type="date" id="transactionDate" required>
+                            <input type="date" id="transactionDate" required style="padding: 10px; font-size: 1em; border: 2px solid #2d5016; border-radius: 6px;">
                         </div>
                         <div class="form-group full-width">
                             <label>Ghi chú</label>
-                            <input type="text" id="note" placeholder="Ví dụ: Ăn trưa, Lương tháng 10...">
+                            <input type="text" id="note" placeholder="Ví dụ: Ăn trưa, Lương tháng 10..." style="padding: 10px; font-size: 1em; border: 2px solid #2d5016; border-radius: 6px;">
                         </div>
                     </div>
                     <button type="submit" style="padding: 12px 30px; font-size: 16px;">💾 Lưu giao dịch</button>
@@ -861,7 +900,7 @@
             <!-- Budget Section -->
             <div class="budget-section">
                 <h2>💰 Quản lý ngân sách danh mục</h2>
-                <p style="margin-bottom: 15px; color: #856404;">Nhập giá trị chi tối đa cho mỗi danh mục chi tiêu</p>
+                <p style="margin-bottom: 15px; color: #856404;">✓ Chọn checkbox để tính vào tiết kiệm | Nhập giá trị chi tối đa cho mỗi danh mục chi tiêu</p>
                 <div class="budget-list" id="budgetList"></div>
             </div>
 
@@ -1184,7 +1223,7 @@
                 userList.innerHTML = `
                     <table style="width: 100%; border-collapse: collapse;">
                         <thead>
-                            <tr style="background: #667eea; color: white;">
+                            <tr style="background: #2d5016; color: white;">
                                 <th style="padding: 12px; text-align: left;">Tài khoản</th>
                                 <th style="padding: 12px; text-align: left;">Email</th>
                                 <th style="padding: 12px; text-align: left;">Ngày đăng ký</th>
@@ -1221,11 +1260,12 @@
                     if (!state.budgets) state.budgets = {};
                     if (!state.targets) state.targets = {};
                     if (!state.monthlyBalance) state.monthlyBalance = {};
+                    if (!state.savingsCategories) state.savingsCategories = {};
                 }
             } catch (error) {
                 console.error('Error loading data:', error);
                 // Initialize empty state if no data
-                state = { categories: [], transactions: [], budgets: {}, targets: {}, monthlyBalance: {} };
+                state = { categories: [], transactions: [], budgets: {}, targets: {}, monthlyBalance: {}, savingsCategories: {} };
             }
         }
 
@@ -1246,7 +1286,8 @@
             transactions: [],
             budgets: {},
             targets: {},  // Giá trị mong muốn cho mỗi danh mục
-            monthlyBalance: {}  // Số dư theo tháng: { "2024-01": 1000000, ... }
+            monthlyBalance: {},  // Số dư theo tháng: { "2024-01": 1000000, ... }
+            savingsCategories: {}  // Danh sách danh mục được chọn để tính tiết kiệm
         };
 
         // View mode: 'all', 'week', 'month'
@@ -1326,6 +1367,7 @@
                     if (!state.budgets) state.budgets = {};
                     if (!state.targets) state.targets = {};
                     if (!state.monthlyBalance) state.monthlyBalance = {};
+                    if (!state.savingsCategories) state.savingsCategories = {};
                 } catch (e) {
                     console.error('Error loading data:', e);
                 }
@@ -1335,7 +1377,7 @@
         function clearAllData() {
             if (confirm('Bạn có chắc chắn muốn xóa toàn bộ dữ liệu? Hành động này không thể hoàn tác!')) {
                 localStorage.removeItem('pf_tracker_v1');
-                state = { categories: [], transactions: [], budgets: {}, targets: {}, monthlyBalance: {} };
+                state = { categories: [], transactions: [], budgets: {}, targets: {}, monthlyBalance: {}, savingsCategories: {} };
                 setupDefaultCategories();
                 render();
             }
@@ -1575,6 +1617,17 @@
             render();
         }
 
+        // Savings category checkbox
+        function toggleSavingsCategory(category, checked) {
+            if (checked) {
+                state.savingsCategories[category] = true;
+            } else {
+                delete state.savingsCategories[category];
+            }
+            saveData();
+            render();
+        }
+        
         // Calculate monthly balance (số dư theo tháng)
         function calculateMonthlyBalance() {
             const monthlyData = {};
@@ -1829,9 +1882,15 @@
                 if (isOverBudget && cat.type === 'expense') {
                     budgetItem.classList.add('over-budget');
                 }
-
+                
                 let html = `
                     <div class="budget-item-header">
+                        ${cat.type === 'expense' ? `
+                            <input type="checkbox" 
+                                   ${isChecked ? 'checked' : ''} 
+                                   onchange="toggleSavingsCategory('${cat.name}', this.checked)"
+                                   style="width: 20px; height: 20px; margin-right: 10px;">
+                        ` : ''}
                         <label style="flex: 1; margin: 0;">${cat.name}</label>
                     </div>
                 `;
@@ -1910,8 +1969,8 @@
                         <td class="amount ${t.type}">${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}</td>
                         <td>
                             <div class="action-buttons">
-                                <button onclick="editTransaction(${t.id})" style="background: #f39c12;">✏️ Sửa</button>
-                                <button onclick="deleteTransaction(${t.id})" class="danger">🗑️ Xóa</button>
+                                <button onclick="editTransaction(${t.id})" style="padding: 10px 18px; background: #2d5016; color: white; border: none; border-radius: 6px; cursor: pointer; margin-right: 8px; font-size: 1em; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">✏️ Sửa</button>
+                                <button onclick="deleteTransaction(${t.id})" style="padding: 10px 18px; background: #8b4513; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1em; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">🗑️ Xóa</button>
                             </div>
                         </td>
                     </tr>
@@ -2084,22 +2143,22 @@
 
                 // Gradient
                 const gradient = ctx.createLinearGradient(0, y, 0, y + barHeight);
-                gradient.addColorStop(0, '#667eea');
-                gradient.addColorStop(1, '#764ba2');
+                gradient.addColorStop(0, '#2d5016');
+                gradient.addColorStop(1, '#5a8f3e');
 
                 // Draw bar
                 ctx.fillStyle = gradient;
                 ctx.fillRect(padding, y, barWidth, barHeight);
 
                 // Draw category name
-                ctx.fillStyle = '#333';
-                ctx.font = '12px Arial';
+                ctx.fillStyle = '#1a1a1a';
+                ctx.font = 'bold 14px Arial';
                 ctx.textAlign = 'left';
                 ctx.fillText(category, padding + 5, y + barHeight / 2 + 4);
 
                 // Draw amount
-                ctx.fillStyle = '#666';
-                ctx.font = '11px Arial';
+                ctx.fillStyle = '#2d5016';
+                ctx.font = 'bold 13px Arial';
                 ctx.textAlign = 'right';
                 const amountText = formatCurrency(amount);
                 ctx.fillText(amountText, padding + barWidth - 5, y + barHeight / 2 + 4);

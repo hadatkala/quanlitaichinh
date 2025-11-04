@@ -35,7 +35,7 @@ echo.
 echo [STEP 3] Committing changes...
 set /p COMMIT_MSG="Enter commit message (or press Enter for default): "
 if "%COMMIT_MSG%"=="" (
-    set COMMIT_MSG=Update: Removed checkbox, new balance/savings calculation, mobile responsive design
+    set COMMIT_MSG=Update: Improved UI colors, larger fonts and buttons for better visibility, optimized for middle-aged users
 )
 
 git commit -m "%COMMIT_MSG%"
